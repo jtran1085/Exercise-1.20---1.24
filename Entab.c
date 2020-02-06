@@ -67,23 +67,20 @@ int main(int argc, const char * argv[]) {
 
    fprintf(fout, "Entab function\n");
   int c = 0;
-  int i = 0;
-  int k = 0;
-  int l = 0;
+  int counter = 1;
+  int nspace = 0;
+  int tabs = 0;
   while((c = fgetc(fin)) != EOF){
-    if (c != ' ') {fputc(c, fout);}
     if(c == ' '){
-      ++i;
-      if(i%TAB_INTERVAL > 0) {k = i%TAB_INTERVAL;}
-    if((k%TAB_INTERVAL) == 0) {fputc('\t', fout);}
-    else{
-       while((k%TAB_INTERVAL)>0){
-         k--;
-         fputc(' ', fout);
-       }
-    }
-    i=0;
+      while((c=fgetc(fin)) !=EOF && c == ' ') {counter++;}
+      nspace = counter%TAB_INTERVAL;
+      tabs = counter/TAB_INTERVAL;
+
+      while(tabs-- > 0){fputc('\t', fout);}
+      while(nspace-- > 0){fputc(' ', fout);}
   }
+  if (c != ' ') {fputc(c, fout);}
+  counter = 1;
 }
   closefiles(2, fin, fout);  // must say number of files
 
